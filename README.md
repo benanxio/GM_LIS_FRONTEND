@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧬 LIS - FASE I: Hematología, Inmunología y Bioquímica
 
-## Getting Started
+Proyecto web basado en **Next.js** para la implementación de la Fase I de un  
+**Sistema de Información de Laboratorio (LIS)**, cubriendo el flujo completo
+desde la admisión del paciente hasta la emisión de reportes, para las áreas de:
 
-First, run the development server:
+- Hematología  
+- Inmunología  
+- Bioquímica  
+
+---
+
+## 🎯 Objetivo de la Fase I
+
+Implementar un LIS que permita:
+
+- Registrar pacientes y emitir órdenes de laboratorio.
+- Gestionar el flujo de muestras y su trazabilidad.
+- Ingresar y validar resultados (manuales y por integración HL7).
+- Generar reportes clínicos formales en PDF.
+- Proveer reportes gerenciales para la toma de decisiones.
+
+---
+
+## 🧩 Módulos Funcionales
+
+### 1. ⚙️ Configuración Maestra
+
+Base de datos de configuración del LIS:
+
+- **Catálogo de Analitos**  
+  - Código único, nombre, unidad estándar, área (BIOQUÍMICA, HEMATOLOGÍA, etc.), tipo de muestra.  
+- **Catálogo de Perfiles**  
+  - Agrupación de analitos (p.ej. PERFIL LIPÍDICO, HEMOGRAMA COMPLETO).  
+- **Valores de Referencia Condicionales**  
+  - Rangos por sexo, edad, condición (ayuno, etc.).  
+- **Catálogo de Instrumentos**  
+  - Equipos, protocolos de comunicación (HL7), puertos, etc.
+
+### 2. 📋 Admisión y Órdenes
+
+Gestión de la solicitud de exámenes:
+
+- Registro de pacientes y datos demográficos.
+- Emisión de órdenes con número único y fecha de ingreso.
+- Selección de exámenes y perfiles desde el catálogo maestro.
+- Registro de procedencia, servicio y cobertura.
+- Impresión de etiquetas con código de barras (número de orden, paciente, muestra).
+
+### 3. 🧪 Gestión de Muestras y Trazabilidad
+
+- Registro de recepción de muestra (fecha/hora, escaneo de código de barras).
+- Vista de trazabilidad tipo “semáforo” (pendiente, en proceso, validado, etc.).
+- Gestión de rechazo de muestras con motivo (ej. muestra hemolizada).
+
+### 4. 💻 Resultados (Módulo Analítico)
+
+- Ingreso manual de resultados con validación automática vs. valores de referencia.
+- Importación de resultados via HL7 desde equipos automatizados.
+- Edición controlada de resultados antes de la validación.
+- Pista de auditoría (usuario, fecha/hora, valor anterior/nuevo).
+- Validación técnica por bioquímico / supervisor.
+
+### 5. 🖨️ Reportes y Documentos
+
+- Generación de **Reporte Final en PDF**:
+  - Datos del paciente, resultados, unidades, rangos de referencia aplicados.
+  - Datos del profesional autorizador (CMP, CTMP, etc.).
+- Resaltado automático de resultados anormales.
+- Histórico integrado de resultados por paciente.
+- Reportes gerenciales por fecha, servicio, médico, tipo de estudio, etc.
+
+### 6. 🛡️ Seguridad y Permisos
+
+Perfiles de usuario:
+
+- **Recepcionista / Admisión**: crear órdenes, imprimir etiquetas, consultar órdenes.  
+- **Analista**: recepción de muestra, ingreso de resultados, edición pre-validación.  
+- **Bioquímico / Supervisor**: validación técnica, gestión de catálogos, reportes gerenciales, anulación/corrección de reportes.
+
+---
+
+## 🛠️ Stack Tecnológico
+
+- [Next.js](https://nextjs.org/) (App Router)
+- TypeScript
+- React
+- [next/font](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) para optimización de fuentes
+- Otras librerías a definir para:
+  - Manejo de formularios
+  - Grillas de datos
+  - Generación de PDF
+  - Integración con API/LIS backend
+
+---
+
+## 🚀 Puesta en marcha (Desarrollo)
+
+Primero, instala las dependencias:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm install
+# o
+yarn
+# o
+pnpm install
+# o
+bun install
