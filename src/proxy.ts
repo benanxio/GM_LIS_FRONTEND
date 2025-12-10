@@ -1,11 +1,10 @@
-// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  if (pathname.startsWith("/app")) {
+  if (!pathname.startsWith("/login")) {
     const hasAccess = req.cookies.get("access");
     const hasRefresh = req.cookies.get("refresh");
 
@@ -20,5 +19,8 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/app/:path*"],
+  matcher: [
+    "/Lis",
+    "/((?!api|login|_next/static|_next/image).*)"
+  ],
 };

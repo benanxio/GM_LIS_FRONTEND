@@ -2,9 +2,9 @@
 "use client";
 
 import { useMe } from "@/hooks/useMe";
-import { useLogout } from "@/hooks/useLogout";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Sidebar } from "@/components/sidebar";
 
 export default function AppLayout({
   children,
@@ -12,7 +12,6 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   const { user, loading, isAuthenticated } = useMe();
-  const logout = useLogout();
   const router = useRouter();
 
   useEffect(() => {
@@ -25,24 +24,9 @@ export default function AppLayout({
   if (!isAuthenticated) return null;
 
   return (
-    <div>
-      <header
-        style={{
-          display: "flex",
-          gap: 16,
-          alignItems: "center",
-          padding: "8px 16px",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <strong>Mi App</strong>
-        <span style={{ marginLeft: "auto" }}>
-          {user?.username}{" "}
-          {user?.current_sede && `– ${user.current_sede.name}`}
-        </span>
-        <button onClick={logout}>Salir</button>
-      </header>
-      <main>{children}</main>
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar user={user} />
+      <main className="flex-1 overflow-y-auto bg-background">{children}</main>
     </div>
   );
 }

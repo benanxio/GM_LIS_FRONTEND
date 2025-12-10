@@ -11,8 +11,9 @@ export function Providers({ children }: { children: ReactNode }) {
     <SWRConfig
       value={{
         fetcher,
-        revalidateOnFocus: true,
+        revalidateOnFocus: false,
         revalidateOnReconnect: true,
+        refreshInterval: 0,
       }}
     >
       {children}

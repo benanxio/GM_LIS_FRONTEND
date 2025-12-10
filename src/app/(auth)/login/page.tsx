@@ -1,12 +1,14 @@
 "use client";
 
-import { FormEvent, useState, useEffect, Suspense } from "react";
+import { FormEvent, useState, useEffect, Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { useMe } from "@/hooks/useMe";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeClosedIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginPage() {
     return (
@@ -17,12 +19,16 @@ export default function LoginPage() {
 }
 
 function LoginPageContent() {
+
     const router = useRouter();
     const searchParams = useSearchParams();
     const { isAuthenticated, reload } = useMe();
+
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
+    const inputRef = useRef<HTMLInputElement | null>(null)
 
     const redirectTo = searchParams.get("from") || "/Lis";
 
@@ -32,6 +38,12 @@ function LoginPageContent() {
         }
     }, [isAuthenticated, redirectTo, router]);
 
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus()
+        }
+    }, [inputRef])
+
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError(null);
@@ -40,8 +52,6 @@ function LoginPageContent() {
         const form = new FormData(e.currentTarget);
         const username = String(form.get("username"));
         const password = String(form.get("password"));
-
-        console.log({ username, password });
 
         try {
 
@@ -60,13 +70,13 @@ function LoginPageContent() {
     return (
         <div className="flex min-h-full w-full flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md space-y-4 mt-4">
-                {/* <Image
+                <Image
                     className="mx-auto h-14 w-auto"
-                    src="/Xpectria_logo_color.svg"
+                    src="/Xpectria_Color_white.webp"
                     alt="Xpectria"
                     width={480}
                     height={480}
-                /> */}
+                />
                 <h2 className="mt-6 text-center text-xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">
                     Iniciar sesión en su cuenta
                 </h2>
@@ -84,6 +94,7 @@ function LoginPageContent() {
                             <Input
                                 id="username"
                                 name="username"
+                                ref={inputRef}
                                 type="text"
                                 autoComplete="username"
                                 required
@@ -127,19 +138,20 @@ function LoginPageContent() {
                             </div>
                         </div>
 
-                        {/* <div className="flex justify-end">
+                        <div className="flex justify-end">
                             <Link
                                 href="/password/forgot"
                                 className="text-sm font-medium text-common-main sm:text-common-main/70 hover:text-common-main transition-colors"
                             >
                                 ¿Olvidaste tu contraseña?
                             </Link>
-                        </div> */}
+                        </div>
                         {error && <p style={{ color: "red" }}>{error}</p>}
                         <Button
                             type="submit"
+                            variant="default"
+                            className="w-full"
                             disabled={loading}
-                            className="flex w-full justify-center rounded-md bg-black py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-black/50 focus:outline-none"
                         >
                             {loading ? (
                                 'Ingresando...'

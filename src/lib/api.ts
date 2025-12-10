@@ -13,7 +13,7 @@ const refreshAuthLogic = async (failedRequest: any) => {
   try {
     // Llamamos al endpoint de refresh en Django
     // No mandamos nada, Django lee refresh desde cookie httpOnly
-    await api.post("/api/auth/refresh/");
+    await api.post("/api/token/refresh/");
 
     // El backend debería setear un nuevo access cookie.
     // Aquí simplemente reintentamos la request original

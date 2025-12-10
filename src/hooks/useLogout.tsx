@@ -11,11 +11,11 @@ export function useLogout() {
 
   const logout = async () => {
     try {
-      await api.post("/api/auth/logout/"); // Django limpia cookies
+      await api.post("/api/logout/");
     } catch (e) {
       console.error(e);
     } finally {
-      await reload(); // borrará el user de SWR
+      await reload();
       router.replace("/login");
     }
   };
